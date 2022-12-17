@@ -21,7 +21,7 @@ async function runTask(temporaryPath, callback) {
 	}
 }
 
-export function temporaryFile({name, extension} = {}) {
+function temporaryFile({name, extension} = {}) {
 	if (name) {
 		if (extension !== undefined && extension !== null) {
 			throw new Error('The `name` and `extension` options are mutually exclusive');
@@ -33,29 +33,40 @@ export function temporaryFile({name, extension} = {}) {
 	return getPath() + (extension === undefined || extension === null ? '' : '.' + extension.replace(/^\./, ''));
 }
 
-export const temporaryFileTask = async (callback, options) => runTask(temporaryFile(options), callback);
+const temporaryFileTask = async (callback, options) => runTask(temporaryFile(options), callback);
 
-export function temporaryDirectory({prefix = ''} = {}) {
+function temporaryDirectory({prefix = ''} = {}) {
 	const directory = getPath(prefix);
 	fs.mkdirSync(directory);
 	return directory;
 }
 
-export const temporaryDirectoryTask = async (callback, options) => runTask(temporaryDirectory(options), callback);
+const temporaryDirectoryTask = async (callback, options) => runTask(temporaryDirectory(options), callback);
 
-export async function temporaryWrite(fileContent, options) {
+async function temporaryWrite(fileContent, options) {
 	const filename = temporaryFile(options);
 	const write = isStream(fileContent) ? writeStream : fsPromises.writeFile;
 	await write(filename, fileContent);
 	return filename;
 }
 
-export const temporaryWriteTask = async (fileContent, callback, options) => runTask(await temporaryWrite(fileContent, options), callback);
+const temporaryWriteTask = async (fileContent, callback, options) => runTask(await temporaryWrite(fileContent, options), callback);
 
-export function temporaryWriteSync(fileContent, options) {
+function temporaryWriteSync(fileContent, options) {
 	const filename = temporaryFile(options);
 	fs.writeFileSync(filename, fileContent);
 	return filename;
 }
 
-export {default as rootTemporaryDirectory} from 'temp-dir';
+// export export {default as rootTemporaryDirectory} from 'temp-dir';
+
+module.exports = {
+	rootTemporaryDirectory: require("temp-dir"),
+	temporaryFile,
+	temporaryFileTask,
+	temporaryWrite,
+	temporaryWriteSync,
+	temporaryWriteTask,
+	temporaryDirectory,
+	temporaryDirectoryTask,
+}
