@@ -61,7 +61,6 @@ function temporaryWriteSync(fileContent, options) {
 // export export {default as rootTemporaryDirectory} from 'temp-dir';
 
 module.exports = {
-	rootTemporaryDirectory: require("temp-dir"),
 	temporaryFile,
 	temporaryFileTask,
 	temporaryWrite,
