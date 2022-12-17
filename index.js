@@ -1,11 +1,11 @@
-import fs from 'node:fs';
-import fsPromises from 'node:fs/promises';
-import path from 'node:path';
-import stream from 'node:stream';
-import {promisify} from 'node:util';
-import uniqueString from 'unique-string';
-import tempDir from 'temp-dir';
-import {isStream} from 'is-stream';
+const fs = require('fs');
+const fsPromises = require('fs/promises');
+const path = require('path');
+const stream = require('stream');
+const {promisify} = require('util');
+const uniqueString = require('unique-string');
+const tempDir = require('temp-dir');
+const {isStream} = require('is-stream');
 
 const pipeline = promisify(stream.pipeline); // TODO: Use `node:stream/promises` when targeting Node.js 16.
 
